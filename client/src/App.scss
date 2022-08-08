@@ -1,0 +1,68 @@
+/* rwd spec */
+$sm: 575px;
+$md: 767px;
+$lg: 991px;
+$xl: 1199px;
+$xxl: 1399px;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Noto+Sans+TC:wght@100;300;400;500;700;900&display=swap');
+@import "./styles/reset.scss";
+@import "./styles/header.scss";
+@import "./styles/home.scss";
+@import "./styles/filter.scss";
+@import "./styles/mobile_filter.scss";
+@import "./styles/products.scss";
+@import "./styles/product.scss";
+@import "./styles/signin.scss";
+@import "./styles/footer.scss";
+@import "./styles/order.scss";
+@import "./styles/cart.scss";
+
+* {
+  box-sizing: border-box;
+}
+
+$letter--spacing: 0.09375rem;
+$color--font: #4f4f4f;
+
+body {
+  font-family: "Inter", "Noto Sans TC", "sans-serif";
+  letter-spacing: $letter--spacing;
+  color: $color--font;
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  letter-spacing: $letter--spacing;
+}
+
+h3 {
+  font-size: 2rem;
+  line-height: 110%;
+  color: $color--font;
+  font-weight: 500;
+}
+
+h4 {
+  font-size: 1.5rem;
+  line-height: 110%;
+  color: $color--font;
+  font-weight: 500;
+}
+
+h5 {
+  font-size: 1.25rem;
+  line-height: 110%;
+  color: $color--font;
+  font-weight: 500;
+}
+
+h6 {
+  font-size: 1rem;
+  line-height: 110%;
+  color: $color--font;
+  font-weight: 500;
+}

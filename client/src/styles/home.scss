@@ -1,0 +1,156 @@
+.l-home {
+    display: flex;
+    // flex-wrap only work on flex items(avoid items crowd together)
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin: 1rem auto;
+    // homepage 高度為 視口高度 - footer高度( - homepage的margin）
+    height: calc(100vh - 6.25rem - 2rem);
+    // height: calc(100vh - 6.25rem);
+
+    .c-sale,
+    .c-new,
+    .c-accessory {
+        width: 32.85%;
+        // 上面得出的視口高度的一半 - homepage的margin-top
+        height: calc(100% / 2 - 1rem);
+        // height: 18.75rem;
+        overflow: hidden; //超出上述寬高部分被裁切
+        position: relative;
+
+        .c-home {
+            width: 100%;
+            height: 100%;
+            background-size: cover; //重新規劃背景圖片尺寸以符合容器大小
+            background-position: center;
+
+            &__btn {
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                padding: .3125rem .625rem;
+                position: absolute;
+                border-radius: .3125rem;
+                border: none;
+                background: rgba(255, 255, 255, 0.4);
+                transition: all .2s ease-in-out;
+                cursor: pointer;
+
+                &:hover {
+                    background: rgba(255, 255, 255, 0.7);
+                }
+            }
+
+            &__title {
+                font-size: 1.3rem;
+                margin: 1rem 0;
+            }
+
+            &__content {
+                font-size: 0.8rem;
+                margin: 1rem 0;
+                color: indianred;
+            }
+        }
+    }
+
+    .c-men,
+    .c-women {
+        width: 49.45%;
+        // height: 21.875rem;
+        // 上面得出的視口高度的一半 + homepage的margin-bottom - 下半部的margin-top
+        height: calc(100% / 2 + .625rem - .625rem);
+        overflow: hidden;
+        margin: .625rem 0 0 0;
+        position: relative;
+
+        .c-home {
+            width: 100%;
+            height: 100%;
+            background-size: cover; //重新規劃背景圖片尺寸以符合容器大小
+            background-position: center;
+
+            &__btn {
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                padding: .3125rem .625rem;
+                position: absolute;
+                border-radius: .3125rem;
+                border: none;
+                background: rgba(255, 255, 255, 0.4);
+                transition: all .2s ease-in-out;
+                cursor: pointer;
+
+                &:hover {
+                    background: rgba(255, 255, 255, 0.7);
+                }
+            }
+
+            &__title {
+                font-size: 1.3rem;
+                margin: 1rem 0;
+            }
+
+            &__content {
+                font-size: 0.8rem;
+                margin: 1rem 0;
+                color: indianred;
+            }
+        }
+    }
+
+    .c-sale__background {
+        background-image: url('https://images.unsplash.com/photo-1577538928305-3807c3993047?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80');
+    }
+
+    .c-new__background {
+        background-image: url('https://images.unsplash.com/photo-1619208382871-96f4d45bc840?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=668&q=80');
+    }
+
+    .c-accessory__background {
+        background-image: url('https://images.unsplash.com/photo-1511556820780-d912e42b4980?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80');
+    }
+
+    .c-men__background {
+        background-image: url('https://images.unsplash.com/photo-1613304059431-31008ff41bc5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80');
+    }
+
+    .c-women__background {
+        background-image: url('https://images.unsplash.com/photo-1591127354453-a43d705f2673?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80');
+    }
+
+    .c-sale__background:hover,
+    .c-new__background:hover,
+    .c-accessory__background:hover,
+    .c-men__background:hover,
+    .c-women__background:hover {
+        transform: scale(1.1); //增加原始寬高各1.1倍
+        transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        //貝賽爾曲線, 指定四個點(P0~P3)所繪成的速度曲線  x1    y1    x2    y2
+        //P0 - (0, 0), P3 - (1, 1)
+        transition-duration: 5s; //transition的時間長度
+    }
+}
+
+
+
+// ****--Responsive Area--****
+@media screen and (max-width: $sm) {
+    .l-home {
+        display: block;
+        overflow-y: scroll;
+
+        .c-sale,
+        .c-new,
+        .c-accessory {
+            width: 100%;
+            margin-bottom: .625rem;
+        }
+
+        .c-men,
+        .c-women {
+            width: 100%;
+        }
+    }
+}

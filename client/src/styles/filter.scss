@@ -1,0 +1,178 @@
+.cancel:checked {
+    background-image: none !important;
+    background-color: white;
+    border-color: rgba(0, 0, 0, .25);
+}
+
+.mobile_filters {
+    display: none;
+}
+
+.l-filter {
+    height: max-content;
+    position: sticky;
+    top: 5.25rem;
+
+    .c-sort {
+        font-size: .875rem;
+        padding: .625rem 0;
+        border-bottom: 1px solid #dadada;
+
+        &>div>label {
+            margin-top: .2rem;
+        }
+    }
+
+    .c-search {
+        padding: .625rem 0;
+        border-bottom: 1px solid #dadada;
+
+        &__input {
+            position: relative;
+            width: 100%;
+            border-radius: .625rem;
+            padding: .5rem;
+            margin: .625rem 0;
+            align-items: center;
+            border: 1px solid #9e9e9e;
+
+            &>input {
+                padding-left: .625rem;
+            }
+        }
+
+        &__title {
+            margin-bottom: 0;
+        }
+
+        &__wrapper {
+            &>input {
+                padding-left: .625rem;
+            }
+        }
+
+        &__apply {
+            width: 100%;
+            padding: .5rem 0;
+            text-transform: capitalize;
+
+            &:focus {
+                background-color: transparent;
+                box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
+            }
+
+            &:hover {
+                background-color: transparent;
+                cursor: pointer;
+            }
+        }
+
+        &__wrapper {
+            position: relative;
+
+            .fa-search {
+                position: absolute;
+                top: 50%;
+                right: 0;
+                transform: translate(-50%, -50%);
+                cursor: pointer;
+            }
+
+            // &::after {
+            //     content: '\f002';
+            //     width: max-content;
+            //     height: max-content;
+            //     position: absolute;
+            //     top: 50%;
+            //     right: 0;
+            //     transform: translate(-50%, -50%);
+            //     cursor: pointer;
+            //     font-family: "Font Awesome 5 Free";
+            //     font-size: 1rem;
+            //     font-weight: 600;
+            // }
+        }
+    }
+
+    .c-range {
+        padding: .625rem 0;
+        border-bottom: 1px solid #dadada;
+        position: relative;
+
+        &__input {
+            display: flex;
+            margin: .625rem 0;
+
+            &>input {
+                padding-left: .625rem;
+                // align-items: center;
+                border-radius: .625rem;
+                padding: .5rem;
+                border: 1px solid #9e9e9e;
+                width: 50%;
+
+            }
+        }
+
+        &__title {
+            margin-bottom: 0;
+        }
+
+        &__wrapper {
+
+            &>input {
+                padding-left: .625rem;
+            }
+        }
+
+        &__tilde {
+            padding: 0 0.5rem;
+            align-self: center;
+        }
+
+        &__apply {
+            width: 100%;
+            padding: .5rem 0;
+            text-transform: capitalize;
+            border: 1px solid #dadada;
+
+            &:focus {
+                background-color: transparent;
+                box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
+            }
+
+            &:hover {
+                background-color: transparent;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .e-clear {
+        width: 100%;
+        padding: .5rem 0;
+        margin-top: .5rem;
+        text-transform: capitalize;
+        border: 1px solid #dadada;
+
+        &:focus {
+            background-color: transparent;
+            // box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
+        }
+
+        &:hover {
+            background-color: transparent;
+            cursor: pointer;
+        }
+    }
+}
+
+.btn:focus {
+    box-shadow: 0 0 0 0.25rem transparent !important;
+}
+
+@media screen and (max-width: $lg) {
+    .l-filter {
+        display: none;
+    }
+}
