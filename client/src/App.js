@@ -13,6 +13,7 @@ import ResetPassword from './components/Pages/ResetPassword';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Order from './components/Pages/Order';
+import Verify from './components/Pages/Verify';
 import {connect, useSelector} from 'react-redux';
 import {getCartItem} from './components/Store/Action/cart';
 import {getLoginUser} from './components/Store/Action/auth';
@@ -100,6 +101,12 @@ const App = ({setUser, getLocalStorage}) => {
                 <ResetPassword match={match}/>
               </>}
             />
+            <Route path="/verify" component={Verify}/>
+            {/* <Route path="/verify/:verifyString" render={({match}) => 
+              <>
+                <Verify match={match}/>
+              </>}
+            /> */}
           </Switch>
         <Footer/>
       </BrowserRouter>

@@ -1,4 +1,3 @@
-const alert = require('alert');
 const sgMail = require('@sendgrid/mail');
 const argon2 = require('argon2');
 const jwt = require('jsonwebtoken');
@@ -25,9 +24,9 @@ const requestVerifyMail= async(req, res, next) => {
             text: "Hello, please the click the link below to verify your identity",
             html: `
             <div>
-                <a href=${process.env.BACKEND_URL}api/verify/t=${token}>Please click here to verify your identity</a>
+                <a href=${process.env.FRONTEND_URL}verify?request=${token}>Please click here to verify your identity</a>
                 <p>or copy the URL below and paste to the browser to verify your identity</p>
-                <span>${process.env.BACKEND_URL}api/verify/t=${token}</span>
+                <span>${process.env.FRONTEND_URL}verify?request=${token}</span>
             </div>
             `
         })
@@ -39,7 +38,7 @@ const requestVerifyMail= async(req, res, next) => {
                 console.log(err);
                 return res.json({
                     code: 30007,
-                    msg: "Something went wrong, please try again later"
+                    message: "Something went wrong, please try again later"
                 })
             }
         }
@@ -67,7 +66,7 @@ const requestVerifyMail= async(req, res, next) => {
         console.log(err)
         return res.json({
             code: 30007,
-            msg: "Something went wrong, please try again later"
+            message: "Something went wrong, please try again later"
         })
     }
 }
@@ -107,7 +106,7 @@ const forgetPassword = async(req, res, next) => {
                 console.error(err);
                 return res.json({
                     code: 30007,
-                    msg: "Something went wrong, please try again later"
+                    message: "Something went wrong, please try again later"
                 })
             }
         }
@@ -129,7 +128,7 @@ const forgetPassword = async(req, res, next) => {
         console.log(err)
         return res.json({
             code: 30007,
-            msg: "Something went wrong, please try again later"
+            message: "Something went wrong, please try again later"
         })
     }
 }
@@ -179,16 +178,12 @@ const resetPassword = async(req, res, next) => {
                                 console.error(err);
                                 return res.json({
                                     code: 30007,
-                                    msg: "Something went wrong, please try again later"
+                                    message: "Something went wrong, please try again later"
                                 })
                             }
                         }
                         sendMail();
-                        // if(req.session.user.id === userId){
-                        //     console.log(req.session.user.id)
-                        //     console.log(userId)
-                            req.session.destroy();
-                        // }
+                        req.session.destroy();
                         return res.json({
                             code: 20004,
                             message: "Your password updated"
@@ -203,8 +198,10 @@ const resetPassword = async(req, res, next) => {
             });
         }catch(err){
             console.log(err)
-            alert("Something went wrong, please try again later")
-            return res.redirect(process.env.FRONTEND_URL);
+            return res.json({
+                code: 30007,
+                message: "Something went wrong, please try again later"
+            })
         }
     }
 
@@ -218,30 +215,36 @@ const getVerifyString = async(req, res, next) => {
         try{
             await jwt.verify(token, secret, async(err, decoded) => {
                 if(err){
-                    alert("Verification link was expired, please apply the new one")
-                    return res.redirect(`${process.env.FRONTEND_URL}/sign`);
+                    return res.json({
+                        code: 30011,
+                        message: "Verification link was expired, please apply the new one"
+                    })
                 }else{
                     const userId = decoded._id;
                     const verifyUser = await User.find({_id: userId});
                     if(verifyUser.length > 0 && verifyUser[0].isVerify !== true){
                         await User.findOneAndUpdate({_id: userId}, {isVerify: true, token: ''})
-                        alert("Verify success");
-                        return res.redirect(`${process.env.FRONTEND_URL}`);
+                        return res.json({
+                            code: 20006,
+                            message: "Verify success"
+                        })
                     }else if(verifyUser.length > 0 && verifyUser[0].isVerify !== false){
-                        alert("This email address is verified");
-                        return res.redirect(`${process.env.FRONTEND_URL}`);
+                        return res.json({
+                            code: 30012,
+                            message: "This email address is verified"
+                        })
                     }
                 }
             });
         }catch(err){
             console.log(err)
-            alert("Something went wrong, please try again later")
-            return res.redirect(`${process.env.FRONTEND_URL}`);
+            return res.json({
+                code: 30007,
+                message: "Something went wrong, please try again later"
+            })
         }
     }
-
-    const {verifyString} = req.params;
-    const verifyStr = verifyString.split('=')[1];
+    const {verifyStr} = req.body;
     decodeToken(verifyStr, process.env.SERVER_SECRET);
 }
 

@@ -8,7 +8,7 @@ router.post('/forget', verifyController.forgetPassword);
 
 router.post('/reset', verifyController.resetPassword);
 
-router.get('/:verifyString', verifyController.getVerifyString);
+router.post('/request', verifyController.getVerifyString);
 
 router.post('/', verifyController.checkIsUpdate);
 

@@ -13,7 +13,7 @@ router.post('/login', authController.userLogin);
 
 router.get('/logout', authController.userLogout);
 
-router.get('/:verifyString', authController.getUserVerify);
+router.post('/verify', authController.getUserVerify);
 
 router.get('/', authController.checkUser);
 
