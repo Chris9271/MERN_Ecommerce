@@ -16,8 +16,8 @@ const store = new MongoDBStore({
 })
 
 app.use(cors({
-    origin: ["http://localhost:3000"],
-    // origin: [process.env.FRONTEND_URL],
+    // origin: ["http://localhost:3000"],
+    origin: [process.env.FRONTEND_URL],
     credentials: true
 }));
 
@@ -81,16 +81,16 @@ app.use('/api/social', socialRouter);
 const orderRouter = require('./routes/order');
 app.use('/api/order', orderRouter);
 
-// if(process.env.NODE_ENV === "production"){
-//     app.use(express.static(path.join(__dirname, 'client/build')));
-//     app.get('/*', (req, res, next) => {
-//         res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-//     })
-// }else{
-//     app.get('/', (req, res, next) => {
-//         res.send("App is running!")
-//     })
-// }
+if(process.env.NODE_ENV === "production"){
+    app.use(express.static(path.join(__dirname, 'client/build')));
+    app.get('/*', (req, res, next) => {
+        res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+    })
+}else{
+    app.get('/', (req, res, next) => {
+        res.send("App is running!")
+    })
+}
 
 app.use((req, res, next)=>{
     throw new HttpError(404, "Can't find this route")
