@@ -47,15 +47,15 @@ const addUser = async(req, res, next) => {
         sgMail.setApiKey(process.env.SENDGRID_KEY);
         const msg = {
             to: email,
-            from: "LUBINTAN.Co <goalsfoods@gmail.com>",
+            from: "LUBINTAN.Co <goalsmfee22@gmail.com>",
             subject: "Welcome To LUBINTAN.Co",
             text: "Hello, please the click below to verify your identity",
             html: `
             <div>
                 <p>Please verify your identity in an hour, after that please request verify mail again, thanks for your cooperation.</p>
-                <a href=${process.env.BACKEND_URL}/api/auth/t=${Token}>Please click here</a>
+                <a href=${process.env.BACKEND_URL}api/auth/t=${Token}>Please click here</a>
                 <p>or copy the URL below and paste to the browser to verify your identity</p>
-                <span>${process.env.BACKEND_URL}/api/auth/t=${Token}</span>
+                <span>${process.env.BACKEND_URL}api/auth/t=${Token}</span>
             </div>
             `
         };

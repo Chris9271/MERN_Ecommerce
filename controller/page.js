@@ -1,5 +1,4 @@
 const ProductSchema = require('../model/item');
-// const CartSchema = require('../model/cart');
 
 const getMensProduct = async(req, res, next) => {
     let listMen;

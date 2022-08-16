@@ -20,14 +20,14 @@ const requestVerifyMail= async(req, res, next) => {
         sgMail.setApiKey(process.env.SENDGRID_KEY);
         const msg = ({
             to: email,
-            from: "LUBINTAN.Co <goalsfoods@gmail.com>",
+            from: "LUBINTAN.Co <goalsmfee22@gmail.com>",
             subject: "LUBINTAN.Co - New Verification Email" ,
             text: "Hello, please the click the link below to verify your identity",
             html: `
             <div>
-                <a href=${process.env.BACKEND_URL}/api/verify/t=${token}>Please click here to verify your identity</a>
+                <a href=${process.env.BACKEND_URL}api/verify/t=${token}>Please click here to verify your identity</a>
                 <p>or copy the URL below and paste to the browser to verify your identity</p>
-                <span>${process.env.BACKEND_URL}/api/verify/t=${token}</span>
+                <span>${process.env.BACKEND_URL}api/verify/t=${token}</span>
             </div>
             `
         })
@@ -88,14 +88,14 @@ const forgetPassword = async(req, res, next) => {
         sgMail.setApiKey(process.env.SENDGRID_KEY);
         const msg = {
             to: email,
-            from: "LUBINTAN.Co <goalsfoods@gmail.com>",
+            from: "LUBINTAN.Co <goalsmfee22@gmail.com>",
             subject: "LUBINTAN.Co - Reset Password",
             text: "Hello, please the click the link below to reset your password",
             html: `
             <div>
-                <a href=${process.env.FRONTEND_URL}/reset/t=${token}>Please click here to reset your password</a>
+                <a href=${process.env.FRONTEND_URL}reset/t=${token}>Please click here to reset your password</a>
                 <p>or copy the URL below and paste to the browser to reset your password</p>
-                <span>${process.env.FRONTEND_URL}/reset/t=${token}</span>
+                <span>${process.env.FRONTEND_URL}reset/t=${token}</span>
             </div>
             `
         };
@@ -163,7 +163,7 @@ const resetPassword = async(req, res, next) => {
                         sgMail.setApiKey(process.env.SENDGRID_KEY);
                         const msg = {
                             to: checkUser[0].email,
-                            from: "LUBINTAN.Co <goalsfoods@gmail.com>",
+                            from: "LUBINTAN.Co <goalsmfee22@gmail.com>",
                             subject: "LUBINTAN.Co - Password Updated Notification",
                             text: "Hello, your password is updated",
                             html: `

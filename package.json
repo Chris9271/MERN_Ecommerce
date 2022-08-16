@@ -4,7 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js",
+    "heroku-postbuild": "cd client && yarn install && yarn build"
   },
   "repository": {
     "type": "git",
@@ -34,5 +36,10 @@
     "passport": "^0.6.0",
     "passport-facebook-token": "^4.0.0",
     "passport-google-token": "^0.1.2"
+  },
+  "engines": {
+    "node": "16.13.1",
+    "npm": "8.1.2",
+    "yarn": "1.x"
   }
 }

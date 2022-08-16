@@ -6,15 +6,17 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const HttpError = require('./model/httpResponse');
 const passport = require('passport');
+const path = require('path');
 const axios = require('axios');
 
 const app = express();
 const store = new MongoDBStore({
-    uri: process.env.MONGODB_URL,
+    uri: process.env.MONGODB_URI,
     collection: 'session'
 })
 
 app.use(cors({
+    // origin: ["http://localhost:3000"],
     origin: [process.env.FRONTEND_URL],
     credentials: true
 }));
@@ -79,24 +81,36 @@ app.use('/api/social', socialRouter);
 const orderRouter = require('./routes/order');
 app.use('/api/order', orderRouter);
 
+if(process.env.NODE_ENV === "production"){
+    app.use(express.static(path.join(__dirname, 'client/build')));
+    app.get('/*', (req, res, next) => {
+        res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+    })
+}else{
+    app.get('/', (req, res, next) => {
+        res.send("App is running!")
+    })
+}
 
 app.use((req, res, next)=>{
     throw new HttpError(404, "Can't find this route")
 })
 
+// next() - used to jump to next middleware function
 // Default error handler (add custom error handler)
 app.use((err, req, res, next)=>{
+    // Boolean property that indicates if the app sent HTTP headers for the response.
     if(res.headersSent){
         return next(err)
     }
     return res.status(err.code || 500).json({message: err.message || "An unknown error occured"})
 })
 
-const PORT = process.env.SERVER_PORT || 5000;
+const SERVER_PORT = 5000;
 
-mongoose.connect(process.env.MONGODB_URL)
+mongoose.connect(process.env.MONGODB_URI)
     .then(()=>{
-        app.listen(PORT);
+        app.listen(process.env.PORT || SERVER_PORT);
         console.log('PORT is connected!');
     })
     .catch(err => console.log(err))
