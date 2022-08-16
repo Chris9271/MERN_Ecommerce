@@ -1,6 +1,6 @@
 .l-signup {
     position: relative;
-    height: calc(100vh - 13.8rem);
+    height: calc(100vh - 9.8rem);
     padding: 2rem 0;
 }
 
@@ -285,7 +285,6 @@
 
 @media screen and (max-width: $lg) {
     .l-signup {
-        height: calc(100vh - 17.2rem);
 
         .c-signup {
             width: 70%;
