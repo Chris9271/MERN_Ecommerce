@@ -2,28 +2,16 @@ import React, {useEffect} from 'react';
 import axios from 'axios';
 import {Link, useHistory} from 'react-router-dom';
 import {useSelector, connect} from 'react-redux';
-import Modal from 'react-modal';
+import Modal from 'react-bootstrap/Modal';
 import Swal from 'sweetalert2';
 import { API_URL, BACKEND_URL } from '../../utils/config';
-import {getCartItem, cartQuantityPlus, cartQuantityMinus, removeItem, removeAll, userInfo, switchPaymentPage, paymentModal, backToPrevPage} from '../Store/Action/cart';
+import {getCartItem, cartQuantityChange, removeItem, removeAll, userInfo, switchPaymentPage, paymentModal, backToPrevPage} from '../Store/Action/cart';
 
-const customPayStyles = {
-    content: {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        transform: 'translate(-50%, -50%)',
-        width: '70%',
-    }
-}
-// Make sure to bind modal to index.html appElement
-Modal.setAppElement("#modal-root");
-
-const Cart = ({cartItem, cartItemPlus, cartItemMinus, removeItemFromCart, cartClear, setUserInfo, setPageBack, setPageSwitch, setPayModal}) => {    
+const Cart = ({cartItem, setCartQuantity, removeItemFromCart, cartClear, setUserInfo, setPageBack, setPageSwitch, setPayModal}) => {    
     const history = useHistory();
     const {userId, authBoolean} = useSelector(state => state.auth);
     const {cart, totalPrice, userInfo, cartBoolean} = useSelector(state => state.cart);
+    
     const year = new Date().getFullYear();
     const month = new Date().getMonth() + 1;
     let convertMonth = "";
@@ -222,8 +210,8 @@ const Cart = ({cartItem, cartItemPlus, cartItemMinus, removeItemFromCart, cartCl
                                     confirmButtonText: 'OK',
                                 }).then((result) => {
                                     if(result.isConfirmed){
-                                        // 跳至訂單頁面(訂單顯示有問題)
                                         history.push(`/order/user?id=${userId}`);
+                                        setPayModal(false)
                                     }
                                 })
                                 cartClear();
@@ -247,10 +235,9 @@ const Cart = ({cartItem, cartItemPlus, cartItemMinus, removeItemFromCart, cartCl
         }
     }
 
-    // 當總價改變時，重新獲取localStorage中的商品
     useEffect(()=>{
         cartItem();
-    }, [totalPrice])
+    }, [setCartQuantity])
 
     useEffect(() => {
         getTPDirect()
@@ -259,9 +246,12 @@ const Cart = ({cartItem, cartItemPlus, cartItemMinus, removeItemFromCart, cartCl
     return (
         <>
         <Modal
-            isOpen={cartBoolean.payModal}
-            onRequestClose={closePayModal}
-            style={customPayStyles}
+            show={cartBoolean.payModal}
+            onHide={closePayModal}
+            contentClassName={cartBoolean.payModal ? "c-modal-dialogname in cart-padding" : "c-modal-dialogname out cart-padding"}
+            backdropClassName={cartBoolean.payModal ? "c-modal-backdrop in" : "c-modal-backdrop out"}
+            animation={false}
+            centered
         >   
         <div className="c-modal-payment mb-4">
             <h1 className="text-center mb-3 ">{!cartBoolean.pageSwitch ? "Checkout Info" :"Payment Info"}</h1>
@@ -336,31 +326,31 @@ const Cart = ({cartItem, cartItemPlus, cartItemMinus, removeItemFromCart, cartCl
                         </div>
                         <div className="c-detail__qty">
                             {(item.quantity <= 1) ?
-                                <button className="e-qty__minus" onClick={()=>cartItemMinus(item)} disabled>
-                                    <i className="fas fa-minus-square"></i>
+                                <button className="e-qty__minus" id="minus" onClick={(e)=>setCartQuantity(item, e.target.id)} disabled>
+                                    <i className="fas fa-minus-square" id="minus"></i>
                                 </button>
                             :
-                                <button className="e-qty__minus" onClick={()=>cartItemMinus(item)}>
-                                    <i className="fas fa-minus-square"></i>
+                                <button className="e-qty__minus" id="minus" onClick={(e)=>setCartQuantity(item, e.target.id)}>
+                                    <i className="fas fa-minus-square" id="minus"></i>
                                 </button>
                             }   
                             <input type="number" value={item.quantity} className="e-qty__amount" min={1} max={10} readOnly/>
                             {(item.quantity >= 10) ?
-                                <button className="e-qty__plus" onClick={()=>cartItemPlus(item)} disabled>
-                                    <i className="fas fa-plus-square"></i>
+                                <button className="e-qty__plus" id="plus" onClick={(e)=>setCartQuantity(item, e.target.id)} disabled>
+                                    <i className="fas fa-plus-square" id="plus"></i>
                                 </button>
                             :
-                                <button className="e-qty__plus" onClick={()=>cartItemPlus(item)}>
-                                    <i className="fas fa-plus-square"></i>
+                                <button className="e-qty__plus" id="plus" onClick={(e)=>setCartQuantity(item, e.target.id)}>
+                                    <i className="fas fa-plus-square" id="plus"></i>
                                 </button>
                             }
                         </div>
                         <div className="c-detail__price">
                             <div>
                                 {item.discount !== "1" &&
-                                    <p className="old-price">${Math.round(item.price * item.quantity) * 30}</p>
+                                    <p className="old-price">${Math.ceil(item.price * item.quantity) * 30}</p>
                                 }
-                                <p>${!item.discount ? Math.round(item.price * item.quantity) * 30 : Math.round(item.price * item.quantity * item.discount) * 30}</p>
+                                <p>${Math.ceil(item.price * item.quantity * item.discount) * 30}</p>
                             </div>
                         </div>
                         <div className="c-detail__remove">
@@ -373,15 +363,15 @@ const Cart = ({cartItem, cartItemPlus, cartItemMinus, removeItemFromCart, cartCl
             <div className="c-cart__total">
                 <div className="c-price-display">
                     <p>Items:</p>
-                    <p>${Math.round(cart.reduce((prev, next) => prev + next.quantity * next.price, 0)) * 30}</p>
+                    <p>${Math.ceil(cart.reduce((prev, next) => prev + next.quantity * next.price, 0)) * 30}</p>
                 </div>
                 <div className="c-price-display">
                     <p>Discount:</p>
-                    <p className="text-danger">-${Math.round(cart.reduce((prev, next) => prev + next.quantity * next.price, 0)) * 30 - totalPrice}</p>
+                    <p className="text-danger">-${Math.ceil(cart.reduce((prev, next) => prev + next.quantity * next.price, 0)) * 30 - totalPrice}</p>
                 </div>
                 <div className="c-price-display">
                     <p>Order Total:</p>
-                    <p>${totalPrice && Math.round(totalPrice)}</p>
+                    <p>${totalPrice}</p>
                 </div>
             </div>
             <div className="c-cart__checkout">
@@ -404,8 +394,7 @@ const Cart = ({cartItem, cartItemPlus, cartItemMinus, removeItemFromCart, cartCl
 const mapDispatchToProps = (dispatch) => {
     return {
         cartItem: () => dispatch(getCartItem()),
-        cartItemPlus: (item) => dispatch(cartQuantityPlus(item)),
-        cartItemMinus: (item) => dispatch(cartQuantityMinus(item)),
+        setCartQuantity: (item, id) => dispatch(cartQuantityChange(item, id)),
         removeItemFromCart: (item) => dispatch(removeItem(item)),
         cartClear: () => dispatch(removeAll()),
         setUserInfo: (name, value) => dispatch(userInfo(name, value)),

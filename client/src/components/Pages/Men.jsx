@@ -67,8 +67,6 @@ const Men = ({match, getMenProducts, sortNameAsc, sortNameDesc, sortPriceAsc, so
     }
 
     const resetSort = () => {
-        // reset避免重新調用api(productList())?
-        // history.push(`${match.path}`)
         productList();
         sortClear();
     }

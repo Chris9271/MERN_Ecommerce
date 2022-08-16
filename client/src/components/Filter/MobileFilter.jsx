@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Sort from './Sort';
 import Search from './Search';
 import PriceRange from './PriceRange';

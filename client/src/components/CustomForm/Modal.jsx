@@ -1,30 +1,19 @@
 import React from 'react';
-import Modal from 'react-modal';
+import Modal from 'react-bootstrap/Modal';
 import {useSelector, connect} from 'react-redux';
 import {setModalForm, getEmail} from '../Store/Action/auth';
 
 const SignModal = ({userRequest, closeModalForm, handleSubmit}) => {
     const {authBoolean} = useSelector(state => state.auth)
-    const customStyles = {
-        content: {
-            top: '50%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            transform: 'translate(-50%, -50%)',
-            padding: '0',
-            border: 'none'
-        }
-    }
-    // Make sure to bind modal to index.html appElement
-    Modal.setAppElement("#modal-root");
 
 return (
     <Modal
-        isOpen={authBoolean.modal}
-        onRequestClose={closeModalForm}
-        style={customStyles}
-        
+        show={authBoolean.modal}
+        onHide={closeModalForm}
+        contentClassName={authBoolean.modal ? "c-modal-dialogname in" : "c-modal-dialogname out"}
+        backdropClassName={authBoolean.modal ? "c-modal-backdrop in" : "c-modal-backdrop out"}
+        animation={false}
+        centered
     >
         <div className="c-modal">
             <button

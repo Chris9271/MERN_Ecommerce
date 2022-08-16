@@ -355,16 +355,64 @@
     }
 }
 
+/***--- Modal CSS ---***/
+.c-modal-backdrop {
+    background-color: rgba(255, 255, 255, .8);
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: both;
+    animation-duration: .3s;
+}
+
+.c-modal-dialogname {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 1.25rem;
+    box-shadow: 0 0 5px rgb(0 0 0 / 25%);
+    border: none;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: both;
+    animation-duration: .3s;
+}
+
+.cart-padding {
+    padding: 2rem;
+}
+
+.in {
+    animation-name: fadeIn;
+
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+}
+
+.out {
+    animation-name: fadeOut;
+
+    @keyframes fadeOut {
+        0% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
+        }
+    }
+}
+
 
 /***--- 其他CSS ---***/
 .fa-chevron-left::before,
 .fa-chevron-right::before {
     display: flex;
     justify-content: center;
-}
-
-.e-modal-image {
-    height: 90vh;
 }
 
 .e-product__arrow-left {

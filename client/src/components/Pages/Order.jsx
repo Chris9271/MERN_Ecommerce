@@ -7,12 +7,13 @@ const Order = ({historyOrder}) => {
     const {authBoolean} = useSelector(state => state.auth);
     // userId - new URLSearchParams(window.location.search).toString()
     // 透過userId 去找到相應訂單顯示在此頁面中
-    const userId = new URLSearchParams(window.location.search).toString().split('=')[1];
+    const paramsUserId = new URLSearchParams(window.location.search).toString().split('=')[1];
+    
     useEffect(() => {
-        historyOrder(userId);
+        historyOrder(paramsUserId);
     }, [])
 
-    if(!authBoolean.isLogin) return <Redirect to="/"/>
+    if(!authBoolean.isLogin || paramsUserId === undefined) return <Redirect to="/"/>
 
     return (
         <>
@@ -103,7 +104,7 @@ const Order = ({historyOrder}) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        historyOrder: (userId) => dispatch(getOrder(userId))
+        historyOrder: (paramsUserId) => dispatch(getOrder(paramsUserId))
     }
 }
 

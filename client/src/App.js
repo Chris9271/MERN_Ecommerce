@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import Sale from './components/Pages/Sale';
 import New from './components/Pages/New';
 import Accessory from './components/Pages/Accessory';
@@ -21,25 +21,37 @@ import axios from 'axios';
 import './App.scss';
 
 const App = ({setUser, getLocalStorage}) => {
-  const getUser = async() => {
-    const loginUser = await axios.get(`${API_URL}/auth`, {withCredentials: true})
-    if(loginUser.data.message === "authenticated"){
-      setUser(loginUser.data.user)
-    }
-  }
 
-  const {userId} = useSelector(state => state.auth)
+  const {authBoolean} = useSelector(state => state.auth);
 
   useEffect(() => {
-    getUser();
-    // 檢查localStorage是否已有商品，有的話將其加入state中，沒有則建立一個新的localStorage
-    const cartList = localStorage.getItem('cartList');
-    if(cartList){
-      getLocalStorage(cartList)
-    }else{
-      localStorage.setItem('cartList', JSON.stringify([]))
-    }
-  }, [userId])
+    (async() => {
+      try{
+        const loginUser = await axios.get(`${API_URL}/auth`, {withCredentials: true})
+        if(loginUser.data.message === "authenticated" && loginUser.data.code === 20000){
+          setUser(loginUser.data.user)
+        }
+        const cartList = localStorage.getItem('cartList');
+        if(cartList){
+          getLocalStorage(cartList)
+        }else{
+          localStorage.setItem('cartList', JSON.stringify([]))
+        }
+      }catch(err){
+        console.error(err);
+      }
+    })()
+  }, [authBoolean.isLogin])
+
+  // useEffect(() => {
+  //   // 檢查localStorage是否已有商品，有的話將其加入state中，沒有則建立一個新的localStorage
+  //   const cartList = localStorage.getItem('cartList');
+  //   if(cartList){
+  //     getLocalStorage(cartList)
+  //   }else{
+  //     localStorage.setItem('cartList', JSON.stringify([]))
+  //   }
+  // }, [])
 
   return (
       <BrowserRouter>
@@ -90,7 +102,6 @@ const App = ({setUser, getLocalStorage}) => {
             />
           </Switch>
         <Footer/>
-        <Redirect to="/"/>
       </BrowserRouter>
   );
 }

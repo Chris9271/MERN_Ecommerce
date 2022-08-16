@@ -1,21 +1,7 @@
 import React from 'react';
-import Modal from 'react-modal';
+import Modal from 'react-bootstrap/Modal';
 import {useSelector, connect} from 'react-redux';
 import {getProductImage, showProductImageModal, showProductHoverImageModal} from '../Store/Action/page';
-
-const customPicStyles = {
-    content: {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        transform: 'translate(-50%, -50%)',
-        padding: '0',
-        border: 'none',
-    }
-}
-// Make sure to bind modal to index.html appElement
-Modal.setAppElement("#modal-root");
 
 const ProductImage = ({switchProductImage, showImage, closeImage, showHoverImage, closeHoverImage}) => {
     const {item, pageBoolean} = useSelector(state => state.page)
@@ -23,16 +9,22 @@ const ProductImage = ({switchProductImage, showImage, closeImage, showHoverImage
     return (
         <div className="c-product-image">
             <Modal
-                isOpen={pageBoolean.showProductImageModal}
-                onRequestClose={closeImage}
-                style={customPicStyles}
+                show={pageBoolean.showProductImageModal}
+                onHide={closeImage}
+                contentClassName={pageBoolean.showProductImageModal ? "c-modal-dialogname in" : "c-modal-dialogname out"}
+                backdropClassName={pageBoolean.showProductImageModal ? "c-modal-backdrop in" : "c-modal-backdrop out"}
+                animation={false}
+                centered
             >
                 <img src={item[0].image} alt="" className="e-modal-image"/>   
             </Modal>
             <Modal
-                isOpen={pageBoolean.showProductHoverImageModal}
-                onRequestClose={closeHoverImage}
-                style={customPicStyles}
+                show={pageBoolean.showProductHoverImageModal}
+                onHide={closeHoverImage}
+                contentClassName={pageBoolean.showProductHoverImageModal ? "c-modal-dialogname in" : "c-modal-dialogname out"}
+                backdropClassName={pageBoolean.showProductHoverImageModal ? "c-modal-backdrop in" : "c-modal-backdrop out"}
+                animation={false}
+                centered
             >
                 <img src={item[0].hoverImage} alt="" className="e-modal-image"/>   
             </Modal>

@@ -1,23 +1,9 @@
 import React from 'react';
-import Modal from 'react-modal';
+import Modal from 'react-bootstrap/Modal';
 import Swal from 'sweetalert2';
 import {useSelector, connect} from 'react-redux';
 import {showChartModal, getOptions, updateQuantity} from '../Store/Action/page';
-import {localStorageCart} from '../Store/Action/cart';
-
-const customStyles = {
-    content: {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        transform: 'translate(-50%, -50%)',
-        width: '90vw',
-        height: '90vh'
-    }
-}
-// Make sure to bind modal to index.html appElement
-Modal.setAppElement("#modal-root");
+import {cartQuantityChange} from '../Store/Action/cart';
 
 const ProductDetail = ({showChart, closeChart, selectOption, selectSecondOption, addQuantity, minusQuantity, setLocalStorage}) => {
     const {item, pageBoolean} = useSelector(state => state.page);
@@ -43,7 +29,7 @@ const ProductDetail = ({showChart, closeChart, selectOption, selectSecondOption,
         || ((item[0].size.length > 0 && item[0].color.length === 0) && itemToCart.size !== "")
         ){
             // 存localStorage
-            setLocalStorage(itemToCart);
+            setLocalStorage(itemToCart, e.target.id);
         }else{
             Toast.fire({
                 icon: 'error',
@@ -55,9 +41,12 @@ const ProductDetail = ({showChart, closeChart, selectOption, selectSecondOption,
     return (
         <div className="c-product-detail">
             <Modal
-                isOpen={pageBoolean.showChartModal}
-                onRequestClose={closeChart}
-                style={customStyles}
+                show={pageBoolean.showChartModal}
+                onHide={closeChart}
+                contentClassName={pageBoolean.showChartModal ? "c-modal-dialogname in" : "c-modal-dialogname out"}
+                backdropClassName={pageBoolean.showChartModal ? "c-modal-backdrop in" : "c-modal-backdrop out"}
+                animation={false}
+                centered
             >
                 <img src="https://cdn.shopify.com/s/files/1/1380/3157/files/168293_original_1-2_2048x2048.png?v=1474813445" alt="" className="e-modal-image"/>   
             </Modal>
@@ -177,8 +166,8 @@ const ProductDetail = ({showChart, closeChart, selectOption, selectSecondOption,
                     </div>
                 </div>
             </div>
-            <button className="e-cart__button" onClick={addToCart}>
-                <i className="fas fa-shopping-cart e-cart__button-icon"></i>
+            <button className="e-cart__button" id="add" onClick={(e) => addToCart(e)}>
+                <i className="fas fa-shopping-cart e-cart__button-icon" id="add"></i>
                 <span>Add To Cart</span>
             </button>
         </div>
@@ -193,7 +182,7 @@ const mapDispatchToProps = (dispatch) => {
         selectSecondOption: (name, value) => dispatch(getOptions(name, value)),
         addQuantity: (name) => dispatch(updateQuantity(name)),
         minusQuantity: (name) => dispatch(updateQuantity(name)),
-        setLocalStorage: (itemToCart) => dispatch(localStorageCart(itemToCart)),
+        setLocalStorage: (itemToCart, id) => dispatch(cartQuantityChange(itemToCart, id)),
     }
 }
 

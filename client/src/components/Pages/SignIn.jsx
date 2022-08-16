@@ -4,13 +4,13 @@ import {useSelector, connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useHistory } from 'react-router-dom';
-import {getLoginUser} from '../Store/Action/auth';
+import {getLoginUser, setModalForm} from '../Store/Action/auth';
 import FormInput from '../CustomForm/FormInput';
 import SocialMedia from '../CustomForm/SocialMedia';
 import Modal from '../CustomForm/Modal';
 import { API_URL } from '../../utils/config';
 
-const SignIn = ({userLogin}) => {
+const SignIn = ({userLogin, closeModal}) => {
     const {authBoolean, email} = useSelector(state => state.auth)
     const history = useHistory();
     const Toast = Swal.mixin({
@@ -40,6 +40,7 @@ const SignIn = ({userLogin}) => {
                     focusConfirm: false
                 }).then((result) => {
                     if(result.isConfirmed){
+                        closeModal();
                         history.push('/');
                     }
                 })
@@ -61,6 +62,7 @@ const SignIn = ({userLogin}) => {
                     focusConfirm: false
                 }).then((result) => {
                     if(result.isConfirmed){
+                        closeModal();
                         history.push('/');
                     }
                 })
@@ -151,6 +153,7 @@ if(authBoolean.isLogin) return <Redirect to = "/"/>
 const mapDispatchToProps = (dispatch) => {
     return{
         userLogin: (userId) => dispatch(getLoginUser(userId)),
+        closeModal: () => dispatch(setModalForm(false))
     }
 }
 

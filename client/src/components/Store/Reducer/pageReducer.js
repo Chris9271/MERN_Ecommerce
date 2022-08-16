@@ -102,7 +102,6 @@ const pageReducer = (state = initStates, action) => {
                     [action.payload.name]: action.payload.value
                 }
             };
-            // 處理該如何將cart分拆出來
         case "SINGLE_PRODUCT":
             return{
                 ...state,

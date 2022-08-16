@@ -92,11 +92,6 @@ const cartReducer = (state = initStates, action) => {
                 ...state,
                 cart: []
             };
-        case "UPDATED_CART":
-            return{
-                ...state,
-                cart: [...action.payload]
-            };
         case "CLEAR_CART":
             return{
                 ...state,
