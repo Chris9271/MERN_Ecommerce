@@ -24,6 +24,7 @@ import './App.scss';
 const App = ({setUser, getLocalStorage}) => {
 
   const {authBoolean} = useSelector(state => state.auth);
+  console.log(authBoolean)
 
   useEffect(() => {
     (async() => {

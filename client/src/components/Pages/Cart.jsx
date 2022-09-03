@@ -96,7 +96,7 @@ const Cart = ({cartItem, setCartQuantity, removeItemFromCart, cartClear, setUser
                 return resolve(window.TPDirect)
             }else{
                 const script = window.document.createElement('script')
-                script.src = process.env.REACT_APP_TAPPAY
+                script.src = process.env.REACT_APP_TAPPAY_SRC
                 script.async = true
                 script.id = "tappay"
                 script.onload = async() => {
@@ -141,7 +141,7 @@ const Cart = ({cartItem, setCartQuantity, removeItemFromCart, cartClear, setUser
             setPageSwitch(true)
             try {
                 const tappaySetup = await getTPDirect();
-                tappaySetup.setupSDK(125168, 'app_lkw3XKMVpxhoEscTdoZjknByLoi0SoZI41SoeUBGX3330UocatKCb1qDjQYU', 'sandbox');
+                tappaySetup.setupSDK(process.env.REACT_APP_TAPPAY_APP_ID, process.env.REACT_APP_TAPPAY_APP_KEY, process.env.REACT_APP_TAPPAY_SERVER_TYPE);
                 tappaySetup.card.setup({
                     fields:{
                         number: {
